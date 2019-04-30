@@ -97,7 +97,7 @@ CheckDistro() {
 InstallFFmpegBase() {
     echo "Installing FFMPEG BASE ..."
     apt-get -qqy install build-essential libspeexdsp-dev pkg-config cmake git ruby-dev
-    apt-get -qqy install wget yasm libchromaprint-dev libfdk-aac-dev libmbedtls-dev
+    apt-get -qqy install wget yasm libchromaprint-dev libfdk-aac-dev
     ## apt-get -qqy install libmfx-dev # Ubuntu Disco for --enable-libmfx
     apt-get -qqy build-dep ffmpeg
     gem install fpm
