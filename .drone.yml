@@ -1,0 +1,70 @@
+
+## Links
+## http://plugins.drone.io/drone-plugins/drone-github-release/
+
+kind: pipeline
+name: default
+
+workspace:
+  base: /build
+#  path: src/github.com/yourname/go-drone-hello-world
+
+steps:
+  - name: clean-folder
+    image: ubuntu:xenial
+    commands:
+      - pwd
+      - mkdir -p /build/dist
+      - ls -sh /build/dist
+
+
+  - name: build-xenial
+    image: ubuntu:xenial
+    commands:
+      - export DEBIAN_FRONTEND=noninteractive
+      - cd obs-studio/scripts
+      - bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
+      - mv /root/dist/ffmpeg-obs-nvenc_* /build/dist/
+      - ls -sh /build/dist
+
+
+  - name: build-bionic
+    image: ubuntu:bionic
+    commands:
+      - export DEBIAN_FRONTEND=noninteractive
+      - cd obs-studio/scripts
+      - bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
+      - mv /root/dist/ffmpeg-obs-nvenc_* /build/dist/
+      - ls -sh /build/dist
+
+
+  - name: build-disco
+    image: ubuntu:disco
+    commands:
+      - export DEBIAN_FRONTEND=noninteractive
+      - exit 0
+      - cd obs-studio/scripts
+      - bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
+      - mv /root/dist/ffmpeg-obs-nvenc_* /build/dist/
+      - ls -sh /build/dist
+
+
+  - name: check-folder
+    image: ubuntu:xenial
+    commands:
+      - pwd
+      - ls -sh /build/dist
+
+
+  - name: publish
+    image: plugins/github-release
+    settings:
+      api_key:
+        from_secret: GITHUB_API_KEY
+      files: 
+        - dist/*
+      checksum:
+        - md5
+        - sha1
+    when:
+      event: tag
