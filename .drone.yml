@@ -63,8 +63,5 @@ steps:
         from_secret: GITHUB_API_KEY
       files: 
         - dist/*
-      checksum:
-        - md5
-        - sha1
     when:
       event: tag
