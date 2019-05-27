@@ -1,5 +1,5 @@
 #!/bin/bash
-## Install FFMPEG 4.1.3 + OBS STUDIO 23.1.0 + NVENC on Ubuntu 16.04|18.04|19.04 64Bits
+## Install FFMPEG 4.1.3 + OBS STUDIO 23.2.0 + NVENC on Ubuntu 16.04|18.04|19.04 64Bits
 
 ## https://gist.github.com/sparrc/026ed9958502072dda749ba4e5879ee3
 ## https://gist.github.com/jniltinho/9273dc133796062c13ca739d17862125
@@ -139,7 +139,7 @@ make install
 make DESTDIR=$FOLDER_FPM install
 rm -rf $FOLDER_FPM/usr/share
 
-## Install OBS STUDIO 23.1.0
+## Install OBS STUDIO 23.2.0
 apt-get -qqy install \
   libasound2-dev \
   libavcodec-dev \
@@ -219,8 +219,8 @@ Type=Application
 Categories=AudioVideo;Recorder;
 StartupNotify=true' >$FOLDER_FPM/usr/share/applications/obs-portable.desktop
 
-fpm -s dir -t tar -C $FOLDER_FPM -n ffmpeg-obs-nvenc -v 23.1.0 -p ffmpeg-obs-nvenc_23.1.0+${DIST}-1_amd64.tar .
-gzip ffmpeg-obs-nvenc_23.1.0+${DIST}-1_amd64.tar
+fpm -s dir -t tar -C $FOLDER_FPM -n ffmpeg-obs-nvenc -v 23.2.0 -p ffmpeg-obs-nvenc_23.2.0+${DIST}-1_amd64.tar .
+gzip ffmpeg-obs-nvenc_23.2.0+${DIST}-1_amd64.tar
 rm -rf $FOLDER_FPM
 
 mkdir -p /root/dist/
