@@ -52,7 +52,11 @@ steps:
   - name: check-folder
     image: ubuntu:xenial
     commands:
-      - pwd
+      - export DEBIAN_FRONTEND=noninteractive
+      - exit 0
+      - cd obs-studio/scripts
+      - bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
+      - mv /root/dist/ffmpeg-obs-nvenc_* /build/dist/
       - ls -sh /build/dist
 
 
