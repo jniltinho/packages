@@ -42,7 +42,6 @@ steps:
     image: ubuntu:disco
     commands:
       - export DEBIAN_FRONTEND=noninteractive
-      - exit 0
       - cd obs-studio/scripts
       - bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
       - mv /root/dist/ffmpeg-obs-nvenc_* /build/dist/
@@ -52,11 +51,7 @@ steps:
   - name: check-folder
     image: ubuntu:xenial
     commands:
-      - export DEBIAN_FRONTEND=noninteractive
-      - exit 0
-      - cd obs-studio/scripts
-      - bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
-      - mv /root/dist/ffmpeg-obs-nvenc_* /build/dist/
+      - pwd
       - ls -sh /build/dist
 
 
