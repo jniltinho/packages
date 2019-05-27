@@ -1,7 +1,7 @@
 # FFMPEG + OBS STUDIO + NVENC
 
  * FFMPEG 4.1.3
- * OBS STUDIO 23.1.0
+ * OBS STUDIO 23.2.0
  * Ubuntu, Kubuntu, Lubuntu 16.04|18.04|19.04 64Bits
  * Precisa ter uma placa NVIDIA e drivers atualizados
 
@@ -28,8 +28,8 @@ apt-get update
 apt-get -y install ffmpeg obs-studio
 
 cd /tmp/
-wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_23.1.0+xenial-1_amd64.deb
-dpkg -i ffmpeg-obs-nvenc_23.1.0+xenial-1_amd64.deb
+wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_23.2.0+xenial-1_amd64.deb
+dpkg -i ffmpeg-obs-nvenc_23.2.0+xenial-1_amd64.deb
 ```
 
 ### Ubuntu Bionic
@@ -42,8 +42,8 @@ apt-get update
 apt-get -y install ffmpeg obs-studio
 
 cd /tmp/
-wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_23.1.0+bionic-1_amd64.deb
-dpkg -i ffmpeg-obs-nvenc_23.1.0+bionic-1_amd64.deb
+wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_23.2.0+bionic-1_amd64.deb
+dpkg -i ffmpeg-obs-nvenc_23.2.0+bionic-1_amd64.deb
 ```
 
 ### Ubuntu Disco
@@ -55,8 +55,8 @@ apt-get update
 apt-get -y install ffmpeg obs-studio
 
 cd /tmp/
-wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_23.1.0+disco-1_amd64.deb
-dpkg -i ffmpeg-obs-nvenc_23.1.0+disco-1_amd64.deb
+wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_23.2.0+disco-1_amd64.deb
+dpkg -i ffmpeg-obs-nvenc_23.2.0+disco-1_amd64.deb
 ```
 
 ## GitLab Project FFMPEG + OBS + NVENC on Ubuntu 16.04|18.04|19.04 64Bits
