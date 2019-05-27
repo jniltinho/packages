@@ -1,5 +1,5 @@
 #!/bin/bash
-## Install FFMPEG 4.1.3 + OBS STUDIO 23.1.0 + NVENC on Ubuntu 16.04|18.04|19.04 64Bits
+## Install FFMPEG 4.1.3 + OBS STUDIO 23.2.0 + NVENC on Ubuntu 16.04|18.04|19.04 64Bits
 
 ## https://gist.github.com/sparrc/026ed9958502072dda749ba4e5879ee3
 ## https://gist.github.com/jniltinho/9273dc133796062c13ca739d17862125
@@ -311,8 +311,8 @@ EOF
 MakeDEB() {
     cd $source_dir
     DIST=$(lsb_release -cs)
-    fpm --deb-no-default-config-files -s dir -t deb -C $FOLDER_FPM -n ffmpeg-obs-nvenc -v 23.1.0 \
-        -p ffmpeg-obs-nvenc_23.1.0+${DIST}-1_amd64.deb .
+    fpm --deb-no-default-config-files -s dir -t deb -C $FOLDER_FPM -n ffmpeg-obs-nvenc -v 23.2.0 \
+        -p ffmpeg-obs-nvenc_23.2.0+${DIST}-1_amd64.deb .
     rm -rf $FOLDER_FPM
     mkdir -p /root/dist/
     cp $source_dir/ffmpeg-obs-nvenc_* /root/dist/
