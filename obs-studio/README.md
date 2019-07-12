@@ -1,6 +1,6 @@
 # FFMPEG + OBS STUDIO + NVENC
 
- * FFMPEG 4.1.3
+ * FFMPEG 4.1.4
  * OBS STUDIO 23.2.0
  * Ubuntu, Kubuntu, Lubuntu 16.04|18.04|19.04 64Bits
  * Precisa ter uma placa NVIDIA e drivers atualizados
