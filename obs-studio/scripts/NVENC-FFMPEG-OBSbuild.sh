@@ -115,7 +115,7 @@ InstallNvidiaSDK() {
 BuildFFmpeg() {
     echo "Compiling ffmpeg"
     cd $source_dir
-    ffmpeg_version="4.2"
+    ffmpeg_version="4.2.1"
     ## ffmpeg_version="snapshot-git"
     if [ ! -f ffmpeg-${ffmpeg_version}.tar.bz2 ]; then
         wget -4 http://ffmpeg.org/releases/ffmpeg-${ffmpeg_version}.tar.bz2
