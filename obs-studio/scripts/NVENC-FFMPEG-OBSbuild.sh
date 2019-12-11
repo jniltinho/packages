@@ -1,10 +1,15 @@
 #!/bin/bash
-## Install FFMPEG 4.2.1 + OBS STUDIO 24.0.3 + NVENC on Ubuntu 16.04|18.04|19.04 64Bits
+## Install FFMPEG 4.2.1 + OBS STUDIO 24.0.3 + NVENC on Ubuntu 18.04|19.04 64Bits
 
 ## https://gist.github.com/sparrc/026ed9958502072dda749ba4e5879ee3
 ## https://gist.github.com/jniltinho/9273dc133796062c13ca739d17862125
 ## https://www.tal.org/tutorials/ffmpeg_nvidia_encode
+## https://github.com/GPUOpen-LibrariesAndSDKs/AMF
 ## Installs ffmpeg from source (HEAD) with libaom and libx265
+
+## https://github.com/zimbatm/ffmpeg-static
+## https://www.johnvansickle.com/ffmpeg/
+## https://github.com/maxrd2/SubtitleComposer/wiki/Building-from-sources
 
 # This script will compile and install a static ffmpeg build with support for
 # nvenc on ubuntu. See the prefix path and compile options if edits are needed
@@ -72,6 +77,13 @@ InstallDependencies() {
 
     apt-get update
     apt-get -qqy install apt-transport-https ca-certificates curl software-properties-common
+    apt-get -qqy install autoconf automake bash build-essential liblilv-dev libcodec2-dev
+    apt-get -qqy install cmake libass-dev libfreetype6-dev libsdl2-dev libtool libva-dev libvdpau-dev
+    apt-get -qqy install libx265-dev libnuma-dev texinfo zlib1g-dev libopenjp2-7-dev librtmp-dev
+    apt-get -qqy install frei0r-plugins-dev gawk libfontconfig-dev libfreetype6-dev libopencore-amrwb-dev
+    apt-get -qqy install libsdl2-dev libspeex-dev libtheora-dev libtool libva-dev cmake libopencore-amrnb-dev
+    apt-get -qqy install libvdpau-dev libvo-amrwbenc-dev sudo tar texi2html yasm libxvidcore-dev lsb-release pkg-config
+    apt-get -qqy install libvorbis-dev libwebp-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev
     mkdir -p "${build_dir}/bin"
 }
 
@@ -79,30 +91,35 @@ InstallDependencies() {
 CheckDistro() {
     echo "Check Distro ...."
     DIST=$(lsb_release -cs)
-
-    if [[ $DIST == 'xenial' || $DIST == 'bionic' ]]; then
-        add-apt-repository ppa:jonathonf/ffmpeg-4 -y
-        sed -i "/^# deb-src/ s/^# //" /etc/apt/sources.list.d/jonathonf-ubuntu-ffmpeg-4-$DIST.list
-        # cat /etc/apt/sources.list.d/jonathonf-ubuntu-ffmpeg-4-$DIST.list
+    if [[ $DIST == 'bionic' ]]; then
         apt-get update
-    fi
-
-    if [[ $DIST == 'disco' ]]; then
-        cp /etc/apt/sources.list /etc/apt/sources.list_$$.bkp
-        sed -i -e "/^# deb-src .*${DIST} universe/ s/^# //" /etc/apt/sources.list
+        add-apt-repository ppa:mc3man/bionic-media -y
         apt-get update
+        apt-get upgrade -y
     fi
 
 }
 
 InstallFFmpegBase() {
+    echo "Check Distro ...."
+    DIST=$(lsb_release -cs)
     echo "Installing FFMPEG BASE ..."
-    apt-get -qqy install build-essential libspeexdsp-dev pkg-config cmake git ruby-dev
-    apt-get -qqy install wget yasm libchromaprint-dev libfdk-aac-dev
-    ## apt-get -qqy install libmfx-dev # Ubuntu Disco for --enable-libmfx
-    apt-get -qqy build-dep ffmpeg
-    gem install fpm
+    if [[ $DIST == 'disco' || $DIST == 'bionic' ]]; then
+        cp /etc/apt/sources.list /etc/apt/sources.list_$$.bkp
+        sed -i -e "/^# deb-src .*${DIST} universe/ s/^# //" /etc/apt/sources.list
+        apt-get update
+        apt-get -qqy install build-essential curl tar libass-dev libaom-dev
+        apt-get -qqy install libtheora-dev libvorbis-dev libtool cmake automake autoconf
+        apt-get -qqy install libspeexdsp-dev pkg-config git ruby-dev
+        apt-get -qqy install wget yasm libchromaprint-dev libfdk-aac-dev
+        ## apt-get -qqy install libmfx-dev # Ubuntu Disco for --enable-libmfx
+        apt-get -qqy build-dep ffmpeg
+        gem install fpm
+    fi
+
 }
+
+
 
 InstallNvidiaSDK() {
     echo "Installing the NVidia Video CODEC"
@@ -112,6 +129,16 @@ InstallNvidiaSDK() {
     make
     make install
 }
+
+InstallAMFSDK() {
+    ## https://www.ffmpeg.org/general.html#toc-AMD-AMF_002fVCE
+    echo "Installing the AMD AMFCodec"
+    cd $source_dir
+    mkdir -p /usr/local/include/AMF
+    git clone https://github.com/GPUOpen-LibrariesAndSDKs/AMF.git
+    cp -aR AMF/amf/public/include/* /usr/local/include/AMF/
+}
+
 
 BuildFFmpeg() {
     echo "Compiling ffmpeg"
@@ -136,6 +163,8 @@ BuildFFmpeg() {
         --disable-stripping \
         --enable-avresample --disable-filter=resample \
         --enable-avisynth \
+        --enable-hardcoded-tables \
+        --enable-v4l2_m2m \
         --enable-gnutls \
         --enable-ladspa \
         --enable-libaom \
@@ -156,6 +185,8 @@ BuildFFmpeg() {
         --enable-libopenjpeg \
         --enable-libopenmpt \
         --enable-libopus \
+        --enable-libfdk-aac \
+        --enable-libass \
         --enable-libpulse \
         --enable-librsvg \
         --enable-librubberband \
@@ -166,17 +197,13 @@ BuildFFmpeg() {
         --enable-libssh \
         --enable-libtheora \
         --enable-libtwolame \
-        --enable-libvidstab \
         --enable-libvorbis \
         --enable-libvpx \
         --enable-libwavpack \
         --enable-libwebp \
-        --enable-libx265 \
         --enable-chromaprint \
         --enable-frei0r \
-        --enable-libx264 \
         --enable-libxml2 \
-        --enable-libxvid \
         --enable-libzmq \
         --enable-libzvbi \
         --enable-lv2 \
@@ -189,11 +216,18 @@ BuildFFmpeg() {
         --enable-ffnvcodec \
         --enable-cuvid \
         --enable-nvenc \
+        --enable-amf \
+        --enable-libx265 \
+        --enable-libx264 \
+        --enable-libxvid \
+        --enable-libopus \
+        --enable-librtmp \
         --enable-vaapi \
         --enable-vdpau \
         --enable-gray \
         --enable-iconv \
         --enable-pic \
+        --enable-libaom \
         --enable-nonfree
 
     retVal=$?
@@ -325,6 +359,7 @@ else
     CheckDistro
     InstallFFmpegBase
     InstallNvidiaSDK
+    InstallAMFSDK
     BuildFFmpeg
     BuildOBS
     MakeLauncherOBS

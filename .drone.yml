@@ -17,17 +17,6 @@ steps:
       - mkdir -p /build/dist
       - ls -sh /build/dist
 
-
-  - name: build-xenial
-    image: ubuntu:xenial
-    commands:
-      - export DEBIAN_FRONTEND=noninteractive
-      - cd obs-studio/scripts
-      - bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
-      - mv /root/dist/ffmpeg-obs-nvenc_* /build/dist/
-      - ls -sh /build/dist
-
-
   - name: build-bionic
     image: ubuntu:bionic
     commands:
