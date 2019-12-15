@@ -1,69 +1,70 @@
-# FFMPEG + OBS STUDIO + NVENC
+# Build FFMPEG on Docker Ubuntu 18.04|19.04
 
- * FFMPEG 4.2.1
- * OBS STUDIO 24.0.3
- * Ubuntu, Kubuntu, Lubuntu 16.04|18.04|19.04 64Bits
- * Precisa ter uma placa NVIDIA e drivers atualizados
+Build FFMPEG 4.2.1 + (NVENC|AMF) + OBS Studio 24.0.5
+
+## Distros Support
+
+* Ubuntu 18.04
+* Ubuntu 19.04
+
+## Compile FFMPEg + NVENC + OBS in the Docker
+
+```bash
+## Run as root (sudo su)
+## First you need to install docker.
+## sudo apt-get update
+## sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common docker.io socat
+
+mkdir install
+cd install
+wget https://gitlab.com/jniltinho/docker-ffmpeg/raw/master/NVENC-FFMPEG-OBSbuild.sh
+
+## For Ubuntu 18.04
+docker run --rm -it -v "${PWD}:/install" ubuntu:bionic /bin/bash
+
+cd /install/
+bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
+cp -aR /root/dist/*.deb /install/
+exit
+```
 
 ## Install Compiled files (FFMPEG and OBS STUDIO)
 
 ```bash
 ## Para Instalar, execute os passos abaixo:
 ## EXECUTAR COMO ROOT !!!!!
-## Use por sua conta e risco, no meu Desktop Ubuntu 16.04 funcionou perfeitamente.
+## Use por sua conta e risco, no meu Desktop Ubuntu 18.04 funcionou perfeitamente.
 ## Esses são Binarios já compilados do OBS e FFMPEG, só funciona em sistemas 64Bits.
-## Para Reportar Bug use o link: https://github.com/jniltinho/packages/issues.
+## Para Reportar Bug use o link: https://github.com/jniltinho/oficinadotux/issues.
 ## Se possivel com Print de Tela ou a saida com erro na linha de comando.
 ## Você pode executar os binarios via linha de comando: obs-portable e ffmpeg.
 ## Desse modo fica facil aparecer os erros.
 ```
 
-### Ubuntu Xenial
+
+### Ubuntu 18.04 - Bionic
 
 ```bash
 apt-get update
-add-apt-repository ppa:jonathonf/ffmpeg-4 -y
 add-apt-repository ppa:obsproject/obs-studio -y
+add-apt-repository ppa:mc3man/bionic-media -y
 apt-get update
-apt-get -y install ffmpeg obs-studio
+apt-get -y install libcodec2-0.7 ffmpeg obs-studio
 
 cd /tmp/
-wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_24.0.3+xenial-1_amd64.deb
-dpkg -i ffmpeg-obs-nvenc_*+xenial-1_amd64.deb
-```
-
-### Ubuntu Bionic
-
-```bash
-apt-get update
-add-apt-repository ppa:jonathonf/ffmpeg-4 -y
-add-apt-repository ppa:obsproject/obs-studio -y
-apt-get update
-apt-get -y install ffmpeg obs-studio
-
-cd /tmp/
-wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_24.0.3+bionic-1_amd64.deb
+wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_24.0.5+bionic-1_amd64.deb
 dpkg -i ffmpeg-obs-nvenc_*+bionic-1_amd64.deb
 ```
 
-### Ubuntu Disco
+### Ubuntu 19.04 - Disco
 
 ```bash
 apt-get update
 add-apt-repository ppa:obsproject/obs-studio -y
 apt-get update
-apt-get -y install ffmpeg obs-studio
+apt-get -y install libcodec2-0.7 ffmpeg obs-studio
 
 cd /tmp/
-wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_24.0.3+disco-1_amd64.deb
+wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_24.0.5+disco-1_amd64.deb
 dpkg -i ffmpeg-obs-nvenc_*+disco-1_amd64.deb
 ```
-
-## GitLab Project FFMPEG + OBS + NVENC on Ubuntu 16.04|18.04|19.04 64Bits
-
-[Compile FFMPEG + NVENC](https://github.com/jniltinho/packages)
-
-## OBS-STUDIO
-
- * [OBS-STUDIO 24](https://github.com/jp9000/obs-studio/wiki/Install-Instructions#manually-compiling-on-debian-based-distros)
- * [OBS Releases](https://github.com/jp9000/obs-studio/releases)
