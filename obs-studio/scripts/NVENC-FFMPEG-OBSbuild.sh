@@ -1,5 +1,5 @@
 #!/bin/bash
-## Install FFMPEG 4.2.1 + OBS STUDIO 24.0.5 + NVENC on Ubuntu 18.04|19.04 64Bits
+## Install FFMPEG GIT + OBS STUDIO 24.0.5 + NVENC on Ubuntu 18.04|19.04 64Bits
 
 ## https://gist.github.com/sparrc/026ed9958502072dda749ba4e5879ee3
 ## https://gist.github.com/jniltinho/9273dc133796062c13ca739d17862125
@@ -144,13 +144,13 @@ InstallAMFSDK() {
 BuildFFmpeg() {
     echo "Compiling ffmpeg"
     cd $source_dir
-    ffmpeg_version="4.2.1"
-    ## ffmpeg_version="snapshot-git"
+    ## ffmpeg_version="4.2.2"
+    ffmpeg_version="snapshot"
     if [ ! -f ffmpeg-${ffmpeg_version}.tar.bz2 ]; then
-        wget -4 http://ffmpeg.org/releases/ffmpeg-${ffmpeg_version}.tar.bz2
+        wget http://ffmpeg.org/releases/ffmpeg-${ffmpeg_version}.tar.bz2
     fi
     tar xjf ffmpeg-${ffmpeg_version}.tar.bz2
-    mv ffmpeg-${ffmpeg_version} ffmpeg
+    ## mv ffmpeg-${ffmpeg_version} ffmpeg
     cd ffmpeg
     PKG_CONFIG_PATH="${build_dir}/lib/pkgconfig" ./configure --prefix="$build_dir" --extra-version="0ub~$(lsb_release -rs)" \
         --toolchain=hardened \
