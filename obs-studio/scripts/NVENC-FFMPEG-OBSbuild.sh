@@ -1,5 +1,5 @@
 #!/bin/bash
-## Install FFMPEG GIT + OBS STUDIO 24.0.5 + NVENC on Ubuntu 18.04|19.04 64Bits
+## Install FFMPEG 4.2.2 + OBS STUDIO 25.0 + NVENC on Ubuntu 18.04|19.04 64Bits
 
 ## https://gist.github.com/sparrc/026ed9958502072dda749ba4e5879ee3
 ## https://gist.github.com/jniltinho/9273dc133796062c13ca739d17862125
@@ -251,6 +251,7 @@ BuildFFmpeg() {
 
 BuildOBS() {
     apt-get -qqy install \
+        libmbedtls-dev \
         libasound2-dev \
         libavcodec-dev \
         libavdevice-dev \
@@ -346,8 +347,8 @@ EOF
 MakeDEB() {
     cd $source_dir
     DIST=$(lsb_release -cs)
-    fpm --deb-no-default-config-files -s dir -t deb -C $FOLDER_FPM -n ffmpeg-obs-nvenc -v 24.0.5 \
-        -p ffmpeg-obs-nvenc_24.0.5+${DIST}-1_amd64.deb .
+    fpm --deb-no-default-config-files -s dir -t deb -C $FOLDER_FPM -n ffmpeg-obs-nvenc -v 25.0 \
+        -p ffmpeg-obs-nvenc_25.0+${DIST}-1_amd64.deb .
     rm -rf $FOLDER_FPM
     mkdir -p /root/dist/
     cp $source_dir/ffmpeg-obs-nvenc_* /root/dist/
