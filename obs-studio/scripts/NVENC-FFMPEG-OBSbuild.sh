@@ -1,5 +1,5 @@
 #!/bin/bash
-## Install FFMPEG 4.2.2 + OBS STUDIO 25.0 + NVENC on Ubuntu 18.04|19.04 64Bits
+## Install FFMPEG 4.2.2 + OBS STUDIO 25.0 + NVENC on Ubuntu 18.04|19.04|20.04 64Bits
 
 ## https://gist.github.com/sparrc/026ed9958502072dda749ba4e5879ee3
 ## https://gist.github.com/jniltinho/9273dc133796062c13ca739d17862125
@@ -105,7 +105,7 @@ InstallFFmpegBase() {
     echo "Check Distro ...."
     DIST=$(lsb_release -cs)
     echo "Installing FFMPEG BASE ..."
-    if [[ $DIST == 'disco' || $DIST == 'bionic' ]]; then
+    if [[ $DIST == 'disco' || $DIST == 'bionic' || $DIST == 'eoan' ]]; then
         cp /etc/apt/sources.list /etc/apt/sources.list_$$.bkp
         sed -i -e "/^# deb-src .*${DIST} universe/ s/^# //" /etc/apt/sources.list
         apt-get update
