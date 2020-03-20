@@ -14,8 +14,8 @@ steps:
     image: ubuntu:xenial
     secrets: [ GITHUB_TOKEN, RELEASE, RELEASE_MSG ]
     commands:
-      - echo $GITHUB_TOKEN
-      - echo $RELEASE_MSG
+      - echo $${GITHUB_TOKEN}
+      - echo $${RELEASE_MSG}
       - pwd
       - mkdir -p /build/dist
       - ls -sh /build/dist
