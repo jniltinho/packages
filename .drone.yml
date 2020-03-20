@@ -49,12 +49,16 @@ steps:
 
   - name: publish-on-github
     image: node:10-jessie
+    environment:
+      GITHUB_TOKEN:
+        from_secret: GITHUB_TOKEN
+      RELEASE:
+        from_secret: RELEASE
+      RELEASE_MSG:
+        from_secret: RELEASE_MSG  
     commands:
       - ls -sh /build/dist
       - npm install -g github-release-cli
-      - export RELEASE="v2.0.0"
-      - export RELEASE_MSG="Update Package .deb OBS-STUDIO + FFMPEG + NVENC + AMF"
-      - export GITHUB_TOKEN=${GITHUB_API_KEY}
       - github-release upload --owner jniltinho --repo packages --tag=${RELEASE} --name=${RELEASE} --body "${RELEASE_MSG}" /build/dist/*.deb
 
 
