@@ -50,11 +50,11 @@ steps:
   - name: publish-on-github
     image: node:10-jessie
     secrets: [ GITHUB_TOKEN, RELEASE, RELEASE_MSG ]
-  environment:
-    DOCKER_PASSWORD: ${GITHUB_TOKEN}
-    GITHUB_TOKEN: ${GITHUB_TOKEN}
-    RELEASE: ${RELEASE}
-    RELEASE_MSG: ${RELEASE_MSG}
+    environment:
+      DOCKER_PASSWORD: ${GITHUB_TOKEN}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      RELEASE: ${RELEASE}
+      RELEASE_MSG: ${RELEASE_MSG}
     commands:
       - ls -sh /build/dist
       - echo ${RELEASE_MSG}
