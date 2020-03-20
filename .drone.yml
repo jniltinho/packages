@@ -13,13 +13,10 @@ steps:
   - name: clean-folder
     image: ubuntu:xenial
     secrets: [ GITHUB_TOKEN, RELEASE, RELEASE_MSG ]
-    environment:
-      - DOCKER_PASSWORD=${GITHUB_TOKEN}
-      - GITHUB_TOKEN=${GITHUB_TOKEN}
-      - RELEASE=${RELEASE}
-      - RELEASE_MSG=${RELEASE_MSG}
     commands:
-      - echo ${RELEASE}
+      - export RELEASE_MSG=${RELEASE_MSG}
+      - export CASA=123456
+      - echo ${CASA}
       - echo ${RELEASE_MSG}
       - pwd
       - mkdir -p /build/dist
