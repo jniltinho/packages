@@ -49,15 +49,10 @@ steps:
 
   - name: publish-on-github
     image: node:10-jessie
-    environment:
-      GITHUB_TOKEN:
-        from_secret: GITHUB_TOKEN
-      RELEASE:
-        from_secret: RELEASE
-      RELEASE_MSG:
-        from_secret: RELEASE_MSG  
+    secrets: [ GITHUB_TOKEN, RELEASE, RELEASE_MSG ] 
     commands:
       - ls -sh /build/dist
+      - echo ${RELEASE}
       - npm install -g github-release-cli
       - github-release upload --owner jniltinho --repo packages --tag=${RELEASE} --name=${RELEASE} --body "${RELEASE_MSG}" /build/dist/*.deb
 
