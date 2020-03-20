@@ -18,6 +18,7 @@ steps:
         from_secret: GITHUB_TOKEN
     commands:
       - echo $GITHUB_TOKEN
+      - echo $RELEASE_MSG
       - pwd
       - mkdir -p /build/dist
       - ls -sh /build/dist
