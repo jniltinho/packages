@@ -1,4 +1,4 @@
-# Build FFMPEG on Docker Ubuntu 18.04|19.04
+# Build FFMPEG on Docker Ubuntu 18.04|19.04|20.04
 
 Build FFMPEG 4.2.X + (NVENC|AMF) + OBS Studio 25.0
 
@@ -6,6 +6,7 @@ Build FFMPEG 4.2.X + (NVENC|AMF) + OBS Studio 25.0
 
 * Ubuntu 18.04
 * Ubuntu 19.04
+* Ubuntu 20.04
 
 ## Compile FFMPEg + NVENC + OBS in the Docker
 
@@ -52,7 +53,7 @@ apt-get update
 apt-get -y install libcodec2-0.7 ffmpeg obs-studio
 
 cd /tmp/
-wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_25.0+bionic-1_amd64.deb
+wget https://github.com/jniltinho/packages/releases/download/v1.0.0/ffmpeg-obs-nvenc_25.0+bionic-1_amd64.deb
 dpkg -i ffmpeg-obs-nvenc_*+bionic-1_amd64.deb
 ```
 
@@ -65,6 +66,19 @@ apt-get update
 apt-get -y install libcodec2-0.7 ffmpeg obs-studio
 
 cd /tmp/
-wget https://github.com/jniltinho/packages/releases/download/1.0.0/ffmpeg-obs-nvenc_25.0+disco-1_amd64.deb
+wget https://github.com/jniltinho/packages/releases/download/v1.0.0/ffmpeg-obs-nvenc_25.0+disco-1_amd64.deb
 dpkg -i ffmpeg-obs-nvenc_*+disco-1_amd64.deb
+```
+
+### Ubuntu 20.04 - Eoan
+
+```bash
+apt-get update
+add-apt-repository ppa:obsproject/obs-studio -y
+apt-get update
+apt-get -y install libcodec2-0.7 ffmpeg obs-studio
+
+cd /tmp/
+wget https://github.com/jniltinho/packages/releases/download/v1.0.0/ffmpeg-obs-nvenc_25.0+eoan-1_amd64.deb
+dpkg -i ffmpeg-obs-nvenc_*+eoan-1_amd64.deb
 ```
