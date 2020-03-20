@@ -12,17 +12,10 @@ workspace:
 steps:
   - name: clean-folder
     image: ubuntu:xenial
-    environment:
-      GITHUB_TOKEN:
-        from_secret: GITHUB_TOKEN
-      RELEASE:
-        from_secret: RELEASE
-      RELEASE_MSG:
-        from_secret: RELEASE_MSG
     envs: [ GITHUB_TOKEN, RELEASE, RELEASE_MSG ]    
     commands:
-      - echo $${GITHUB_TOKEN}
-      - echo ${RELEASE_MSG}
+      - echo $GITHUB_TOKEN
+      - echo $RELEASE_MSG
       - pwd
       - mkdir -p /build/dist
       - ls -sh /build/dist
@@ -59,16 +52,17 @@ steps:
 
   - name: publish-on-github
     image: node:10-jessie
-    secrets: [ GITHUB_TOKEN, RELEASE, RELEASE_MSG ]
     environment:
-      DOCKER_PASSWORD: ${GITHUB_TOKEN}
-      GITHUB_TOKEN: ${GITHUB_TOKEN}
-      RELEASE: ${RELEASE}
-      RELEASE_MSG: ${RELEASE_MSG}
+      GITHUB_TOKEN:
+        from_secret: GITHUB_TOKEN
+      RELEASE:
+        from_secret: RELEASE
+      RELEASE_MSG:
+        from_secret: RELEASE_MSG
+    envs: [ GITHUB_TOKEN, RELEASE, RELEASE_MSG ]  
     commands:
       - ls -sh /build/dist
-      - echo ${RELEASE_MSG}
       - npm install -g github-release-cli
-      - github-release upload --owner jniltinho --repo packages --tag=${RELEASE} --name=${RELEASE} --body "${RELEASE_MSG}" /build/dist/*.deb
+      - github-release upload --owner jniltinho --repo packages --tag=$RELEASE --name=$RELEASE --body "$RELEASE_MSG" /build/dist/*.deb
 
 
