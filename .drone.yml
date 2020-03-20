@@ -12,7 +12,7 @@ workspace:
 steps:
   - name: clean-folder
     image: ubuntu:xenial
-    envs: [ GITHUB_TOKEN, RELEASE, RELEASE_MSG ]    
+    secrets: [ GITHUB_TOKEN, RELEASE, RELEASE_MSG ]
     commands:
       - echo $GITHUB_TOKEN
       - echo $RELEASE_MSG
