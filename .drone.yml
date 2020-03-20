@@ -47,19 +47,14 @@ steps:
       - ls -sh /build/dist
 
 
-  - name: check-folder
-    image: ubuntu:xenial
+  - name: publish-on-github
+    image: node:10-jessie
     commands:
-      - pwd
       - ls -sh /build/dist
+      - npm install -g github-release-cli
+      - export RELEASE="v2.0.0"
+      - export RELEASE_MSG="Update Package .deb OBS-STUDIO + FFMPEG + NVENC + AMF"
+      - export GITHUB_TOKEN=${GITHUB_API_KEY}
+      - github-release upload --owner jniltinho --repo packages --tag=${RELEASE} --name=${RELEASE} --body "${RELEASE_MSG}" /build/dist/*.deb
 
 
-  - name: publish
-    image: plugins/github-release
-    settings:
-      api_key:
-        from_secret: GITHUB_API_KEY
-      files: 
-        - dist/*
-    when:
-      event: tag
