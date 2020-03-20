@@ -20,8 +20,8 @@ steps:
       RELEASE_MSG:
         from_secret: RELEASE_MSG      
     commands:
-      - echo $GITHUB_TOKEN
-      - echo $RELEASE_MSG
+      - echo $${GITHUB_TOKEN}
+      - echo $${RELEASE_MSG}
       - pwd
       - mkdir -p /build/dist
       - ls -sh /build/dist
