@@ -13,11 +13,11 @@ steps:
   - name: clean-folder
     image: ubuntu:xenial
     secrets: [ GITHUB_TOKEN, RELEASE, RELEASE_MSG ]
+    environment:
+      GITHUB_TOKEN:
+        from_secret: GITHUB_TOKEN
     commands:
-      - export RELEASE_MSG=${RELEASE_MSG}
-      - export CASA=123456
-      - echo ${CASA}
-      - echo ${RELEASE_MSG}
+      - echo $GITHUB_TOKEN
       - pwd
       - mkdir -p /build/dist
       - ls -sh /build/dist
