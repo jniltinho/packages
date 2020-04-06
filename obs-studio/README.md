@@ -1,6 +1,6 @@
-# Build FFMPEG on Docker Ubuntu 18.04|19.04|20.04
+# DEB Package OBS-STUDIO-PLUS for Ubuntu 18.04|19.04|20.04 64Bit
 
-Build FFMPEG 4.2.X + (NVENC|AMF) + OBS Studio 25.0.4
+Build FFMPEG and OBS Studio Latest + (NVENC|AMFenc)
 
 ## Distros Support
 
