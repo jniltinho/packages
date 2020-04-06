@@ -1,5 +1,5 @@
 #!/bin/bash
-## Install FFMPEG 4.2.X + OBS STUDIO 25.0.4 + NVENC on Ubuntu 18.04|19.04 64Bits
+## Build (NVENC+AMFenc)FFMPEG + OBS STUDIO Latest + on Ubuntu 18.04|19.04 64Bits
 
 ## https://gist.github.com/sparrc/026ed9958502072dda749ba4e5879ee3
 ## https://gist.github.com/jniltinho/9273dc133796062c13ca739d17862125
@@ -163,7 +163,6 @@ BuildFFmpeg() {
         --enable-gpl \
         --disable-stripping \
         --enable-avresample --disable-filter=resample \
-        --enable-avisynth \
         --enable-hardcoded-tables \
         --enable-v4l2_m2m \
         --enable-gnutls \
