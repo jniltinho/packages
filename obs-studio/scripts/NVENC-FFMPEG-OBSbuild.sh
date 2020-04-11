@@ -345,9 +345,12 @@ EOF
 
 MakeDEB() {
     cd $source_dir
+    ## Get latest OBS-STUDIO VERSION
+    OBS_REPO=obsproject/obs-studio
+    OBS_VERSION=$(basename $(curl -Ls -o /dev/null -w %{url_effective} https://github.com/$OBS_REPO/releases/latest))
     DIST=$(lsb_release -cs)
-    fpm --deb-no-default-config-files -s dir -t deb -C $FOLDER_FPM -n ffmpeg-obs-nvenc -v 25.0.4 \
-        -p ffmpeg-obs-nvenc_25.0.4+${DIST}-1_amd64.deb .
+    fpm --deb-no-default-config-files -s dir -t deb -C $FOLDER_FPM -n ffmpeg-obs-nvenc -v ${OBS_VERSION} \
+        -p ffmpeg-obs-nvenc_${OBS_VERSION}+${DIST}-1_amd64.deb .
     rm -rf $FOLDER_FPM
     mkdir -p /root/dist/
     cp $source_dir/ffmpeg-obs-nvenc_* /root/dist/
