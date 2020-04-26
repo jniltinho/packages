@@ -17,18 +17,29 @@ steps:
       - mkdir -p /build/dist
       - ls -sh /build/dist
 
-  - name: build-bionic
+
+  - name: build-appimage
     image: ubuntu:bionic
     commands:
       - export DEBIAN_FRONTEND=noninteractive
       - cd obs-studio/scripts
-      - bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
-      - mv /root/dist/ffmpeg-obs-nvenc_* /build/dist/
+      - apt-get update
+      - apt-get -qqy install git sudo libfuse-dev ccache apt-transport-https ca-certificates wget curl software-properties-common
+      - git clone --recursive https://github.com/obsproject/obs-studio.git
+      - cp -r CI/install-dependencies-linux.sh obs-studio/CI/install-dependencies-linux.sh
+      - cp -r CI/before-script-linux.sh obs-studio/CI/before-script-linux.sh
+      - cp -r CI/script-linux-appimage.sh obs-studio/CI/script-linux-appimage.sh
+      - chmod +x obs-studio/CI/*.sh
+      - cd obs-studio
+      - ./CI/install-dependencies-linux.sh
+      - ./CI/before-script-linux.sh
+      - ./CI/script-linux-appimage.sh
+      - mv /root/dist/obs-studio-plus-*.AppImage /build/dist/
       - ls -sh /build/dist
 
 
-  - name: build-disco
-    image: ubuntu:disco
+  - name: build-bionic
+    image: ubuntu:bionic
     commands:
       - export DEBIAN_FRONTEND=noninteractive
       - cd obs-studio/scripts
@@ -60,6 +71,6 @@ steps:
     commands:
       - ls -sh /build/dist
       - npm install -g github-release-cli
-      - github-release upload --owner jniltinho --repo packages --tag=$RELEASE --name=$RELEASE --body "$RELEASE_MSG" /build/dist/*.deb
+      - github-release upload --owner jniltinho --repo packages --tag=$RELEASE --name=$RELEASE --body "$RELEASE_MSG" /build/dist/*
 
 
