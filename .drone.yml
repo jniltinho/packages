@@ -34,7 +34,7 @@ steps:
       - ./CI/install-dependencies-linux.sh
       - ./CI/before-script-linux.sh
       - ./CI/script-linux-appimage.sh
-      - mv /root/dist/obs-studio-plus-*.AppImage /build/dist/
+      - mv build/appdir/obs-studio-plus-*.AppImage /build/dist/
       - ls -sh /build/dist
 
 
