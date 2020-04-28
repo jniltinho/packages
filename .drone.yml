@@ -26,9 +26,9 @@ steps:
       - apt-get update
       - apt-get -qqy install git sudo libfuse-dev ccache apt-transport-https ca-certificates wget curl software-properties-common
       - git clone --recursive https://github.com/obsproject/obs-studio.git
-      - cp -r CI/install-dependencies-linux.sh obs-studio/CI/install-dependencies-linux.sh
-      - cp -r CI/before-script-linux.sh obs-studio/CI/before-script-linux.sh
-      - cp -r CI/script-linux-appimage.sh obs-studio/CI/script-linux-appimage.sh
+      - rm -rf obs-studio/CI
+      - chmod +x CI/*.sh
+      - cp -aR CI obs-studio/
       - chmod +x obs-studio/CI/*.sh
       - cd obs-studio
       - ./CI/install-dependencies-linux.sh

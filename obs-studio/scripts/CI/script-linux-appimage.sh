@@ -2,7 +2,6 @@
 set -ex
 
 export QT_SELECT=qt5
-#export APPIMAGE_EXTRACT_AND_RUN=1
 
 # Eat our own dogfood, use appstreamcli AppImage to verify the AppStream metadata
 wget -c https://github.com/$(wget -q https://github.com/probonopd/appstream/releases -O - | grep "appstreamcli-.*-x86_64.AppImage" | head -n 1 | cut -d '"' -f 2) -O appstreamcli
@@ -45,5 +44,7 @@ chmod +x appimagetool.AppImage
 ./appimagetool.AppImage --appimage-extract-and-run deploy appdir/usr/share/applications/*.desktop
 
 sed -i 's|Name=OBS Studio|Name=obs-studio-plus|' appdir/com.obsproject.Studio.desktop
+cp ../CI/install/AppDir/AppRun appdir/AppRun
+chmod +x appdir/AppRun
 
 ./appimagetool.AppImage --appimage-extract-and-run appdir/
