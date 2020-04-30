@@ -94,9 +94,8 @@ CheckDistro() {
     DIST=$(lsb_release -cs)
     if [[ $DIST == 'bionic' ]]; then
         apt-get update
-        add-apt-repository ppa:mc3man/bionic-media -y
+        add-apt-repository ppa:jonathonf/ffmpeg-4 -y
         apt-get update
-        apt-get upgrade -y
     fi
 
 }
@@ -106,29 +105,28 @@ InstallFFmpegBase() {
     DIST=$(lsb_release -cs)
     echo "Installing FFMPEG BASE ..."
     if [[ $DIST == 'disco' || $DIST == 'bionic' || $DIST == 'eoan' ]]; then
-        cp /etc/apt/sources.list /etc/apt/sources.list_$$.bkp
-        sed -i -e "/^# deb-src .*${DIST} universe/ s/^# //" /etc/apt/sources.list
-        apt-get update
-        apt-get -qqy install build-essential curl tar libass-dev libaom-dev
-        apt-get -qqy install libtheora-dev libvorbis-dev libtool cmake automake autoconf
-        apt-get -qqy install libspeexdsp-dev pkg-config git ruby-dev
-        apt-get -qqy install wget yasm libchromaprint-dev libfdk-aac-dev
-        ## apt-get -qqy install libmfx-dev # Ubuntu Disco for --enable-libmfx
-        apt-get -qqy build-dep ffmpeg
+        echo "Installing dependencies"
+        apt-get -qqy install build-essential curl tar libass-dev cmake
+        apt-get -qqy install libtheora-dev libvorbis-dev libtool automake autoconf
+        apt-get -qqy install libspeexdsp-dev pkg-config git libxml2-dev ruby-dev
+        apt-get -qqy install yasm libchromaprint-dev libfdk-aac-dev libflite1
+
+        ## Build FFMPEG
+        apt-get -qqy install libbs2b-dev ladspa-sdk libbluray-dev libcaca-dev libmp3lame-dev libaom-dev
+        apt-get -qqy install libgme-dev libgsm1-dev libopenmpt-dev libopus-dev librsvg2-dev librubberband-dev
+        apt-get -qqy install libshine-dev libsoxr-dev libtwolame-dev libvpx-dev libwavpack-dev libx264-dev
+        apt-get -qqy install libzvbi-dev libopenal-dev libomxil-bellagio-dev libjack-dev libcdio-paranoia-dev
         gem install fpm
     fi
 
 }
 
-
-
 InstallNvidiaSDK() {
     echo "Installing the NVidia Video CODEC"
     cd $source_dir
-    git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
-    cd nv-codec-headers
-    make
-    make install
+    git clone --depth=1 https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
+    ( cd nv-codec-headers ; make -j$(nproc) ; make -j$(nproc) install )
+    rm -rf nv-codec-headers
 }
 
 InstallAMFSDK() {
@@ -136,10 +134,10 @@ InstallAMFSDK() {
     echo "Installing the AMD AMFCodec"
     cd $source_dir
     mkdir -p /usr/local/include/AMF
-    git clone https://github.com/GPUOpen-LibrariesAndSDKs/AMF.git
+    git clone --depth=1 https://github.com/GPUOpen-LibrariesAndSDKs/AMF.git
     cp -aR AMF/amf/public/include/* /usr/local/include/AMF/
+    rm -rf AMF
 }
-
 
 BuildFFmpeg() {
     echo "Compiling ffmpeg"
@@ -162,12 +160,10 @@ BuildFFmpeg() {
         --arch=amd64 \
         --enable-gpl \
         --disable-stripping \
-        --enable-avresample --disable-filter=resample \
         --enable-hardcoded-tables \
         --enable-v4l2_m2m \
         --enable-gnutls \
         --enable-ladspa \
-        --enable-libaom \
         --enable-libass \
         --enable-libbluray \
         --enable-libbs2b \
@@ -194,7 +190,6 @@ BuildFFmpeg() {
         --enable-libsnappy \
         --enable-libsoxr \
         --enable-libspeex \
-        --enable-libssh \
         --enable-libtheora \
         --enable-libtwolame \
         --enable-libvorbis \
@@ -245,6 +240,7 @@ BuildFFmpeg() {
     make install
     make DESTDIR=$FOLDER_FPM install
     rm -rf $FOLDER_FPM/usr/share/doc
+    rm -rf $FOLDER_FPM/share/doc
 
 }
 
@@ -292,8 +288,10 @@ BuildOBS() {
     mkdir build && cd build
     cmake -DUNIX_STRUCTURE=1 -DCMAKE_INSTALL_PREFIX=$build_dir ..
     make -j$(nproc)
-    make install
-    make DESTDIR=$FOLDER_FPM install
+    make -j$(nproc) install
+    make -j$(nproc) DESTDIR=$FOLDER_FPM install
+    rm -rf $FOLDER_FPM/share/doc
+    rm -rf $FOLDER_FPM/share/metainfo
 
 }
 
@@ -332,7 +330,6 @@ Type=Application
 Categories=AudioVideo;Recorder;
 EOF
 
-
     mkdir -p $FOLDER_FPM/usr/local/bin/
     mkdir -p $FOLDER_FPM/usr/share/icons/
     mkdir -p $FOLDER_FPM/$build_dir/scripts
@@ -349,11 +346,11 @@ MakeDEB() {
     OBS_REPO=obsproject/obs-studio
     OBS_VERSION=$(basename $(curl -Ls -o /dev/null -w %{url_effective} https://github.com/$OBS_REPO/releases/latest))
     DIST=$(lsb_release -cs)
-    fpm --deb-no-default-config-files -s dir -t deb -C $FOLDER_FPM -n ffmpeg-obs-nvenc -v ${OBS_VERSION} \
-        -p ffmpeg-obs-nvenc_${OBS_VERSION}+${DIST}-1_amd64.deb .
+    fpm --deb-no-default-config-files -s dir -t deb -C $FOLDER_FPM -n obs-studio-plus -v ${OBS_VERSION} \
+        -p obs-studio-plus_${OBS_VERSION}+${DIST}-1_amd64.deb .
     rm -rf $FOLDER_FPM
     mkdir -p /root/dist/
-    cp $source_dir/ffmpeg-obs-nvenc_* /root/dist/
+    cp $source_dir/obs-studio-plus_* /root/dist/
 }
 
 if [ $1 ]; then

@@ -4,21 +4,22 @@ set -ex
 curl -L https://packagecloud.io/github/git-lfs/gpgkey | sudo apt-key add -
 
 # gets us newer clang
-sudo bash -c "cat >> /etc/apt/sources.list" << LLVMAPT
+sudo bash -c "cat >> /etc/apt/sources.list" <<LLVMAPT
 # 3.8
 deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main
 deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main
 LLVMAPT
 
-wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
 apt-get update
+apt-get -qqy install ccache cmake
 apt-get -qqy install apt-transport-https ca-certificates curl software-properties-common
 apt-get -qqy install autoconf automake bash build-essential liblilv-dev libcodec2-dev
-apt-get -qqy install cmake libass-dev libfreetype6-dev libsdl2-dev libtool libva-dev libvdpau-dev
+apt-get -qqy install libass-dev libfreetype6-dev libsdl2-dev libtool libva-dev libvdpau-dev
 apt-get -qqy install libx265-dev libnuma-dev texinfo zlib1g-dev libopenjp2-7-dev librtmp-dev
 apt-get -qqy install frei0r-plugins-dev gawk libfontconfig-dev libfreetype6-dev libopencore-amrwb-dev
-apt-get -qqy install libsdl2-dev libspeex-dev libtheora-dev libtool libva-dev cmake libopencore-amrnb-dev
+apt-get -qqy install libsdl2-dev libspeex-dev libtheora-dev libtool libva-dev libopencore-amrnb-dev
 apt-get -qqy install libvdpau-dev libvo-amrwbenc-dev sudo tar texi2html yasm libxvidcore-dev lsb-release pkg-config
 apt-get -qqy install libvorbis-dev libwebp-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev
 

@@ -34,7 +34,8 @@ steps:
       - ./CI/install-dependencies-linux.sh
       - ./CI/before-script-linux.sh
       - ./CI/script-linux-appimage.sh
-      - mv build/obs-studio-plus-*.AppImage /build/dist/
+      - cp build/obs-studio-plus-*.AppImage /build/dist/
+      - cp codecs_ffmpeg/ffmpeg/*.deb /build/dist/
       - ls -sh /build/dist
 
 

@@ -4,7 +4,7 @@ set -ex
 export QT_SELECT=qt5
 
 # Eat our own dogfood, use appstreamcli AppImage to verify the AppStream metadata
-wget -c https://github.com/$(wget -q https://github.com/probonopd/appstream/releases -O - | grep "appstreamcli-.*-x86_64.AppImage" | head -n 1 | cut -d '"' -f 2) -O appstreamcli
+wget -c https://github.com/probonopd/appstream/releases/download/continuous/appstreamcli-28-x86_64.AppImage -O appstreamcli
 chmod +x appstreamcli
 export PATH=$(readlink -f .):$PATH
 
@@ -21,7 +21,8 @@ apt-get -y download libpython3.6-minimal libpython3.6-stdlib
 ( cd appdir ; dpkg -x ../libpython3.6-minimal*.deb . )
 ( cd appdir ; dpkg -x ../libpython3.6-stdlib*.deb . )
 
-( cd appdir ; ln -sf ../../usr/lib/x86_64-linux-gnu/qt5/plugins/platforms/ usr/bin/platforms )
+# ( cd appdir ; ln -sf ../../usr/lib/x86_64-linux-gnu/qt5/plugins/platforms/ usr/bin/platforms )
+
 
 # libobs.so.0 loads resources from a path relative to cwd that only works
 # when -DUNIX_STRUCTURE=0 is used at configure time, which we are not using;
@@ -39,12 +40,16 @@ rm -rf appdir/usr/share/metainfo
 OBS_REPO=obsproject/obs-studio
 export VERSION=$(basename $(curl -Ls -o /dev/null -w %{url_effective} https://github.com/$OBS_REPO/releases/latest))
 
-wget -c https://github.com/probonopd/go-appimage/releases/download/continuous/appimagetool-474-x86_64.AppImage -O appimagetool.AppImage
-chmod +x appimagetool.AppImage
-./appimagetool.AppImage --appimage-extract-and-run deploy appdir/usr/share/applications/*.desktop
+wget -c https://github.com/probonopd/go-appimage/releases/download/continuous/appimagetool-474-x86_64.AppImage -O appimagetool
+chmod +x appimagetool
+./appimagetool --appimage-extract-and-run deploy appdir/usr/share/applications/*.desktop
+
+## Copy ffmpeg
+cp /usr/bin/ffmpeg /usr/bin/ffplay /usr/bin/ffprobe appdir/usr/bin/
+rm -rf appdir/usr/share/doc
 
 sed -i 's|Name=OBS Studio|Name=obs-studio-plus|' appdir/com.obsproject.Studio.desktop
 cp ../CI/install/AppDir/AppRun appdir/AppRun
 chmod +x appdir/AppRun
 
-./appimagetool.AppImage --appimage-extract-and-run appdir/
+./appimagetool --appimage-extract-and-run appdir/
