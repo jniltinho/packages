@@ -31,6 +31,7 @@ steps:
       - cp -aR CI obs-studio/
       - chmod +x obs-studio/CI/*.sh
       - cd obs-studio
+      - ./CI/install-ffmpeg-linux.sh
       - ./CI/install-dependencies-linux.sh
       - ./CI/before-script-linux.sh
       - ./CI/script-linux-appimage.sh
