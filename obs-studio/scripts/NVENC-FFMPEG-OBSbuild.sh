@@ -197,7 +197,6 @@ BuildFFmpeg() {
         --enable-chromaprint \
         --enable-frei0r \
         --enable-libxml2 \
-        --enable-libzmq \
         --enable-libzvbi \
         --enable-lv2 \
         --enable-omx \
