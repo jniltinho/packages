@@ -77,7 +77,7 @@ InstallDependencies() {
     fi
 
     apt-get update
-    apt-get -qqy install apt-transport-https ca-certificates curl software-properties-common
+    apt-get -qqy install apt-transport-https ca-certificates curl wget software-properties-common
     apt-get -qqy install autoconf automake bash build-essential liblilv-dev libcodec2-dev
     apt-get -qqy install cmake libass-dev libfreetype6-dev libsdl2-dev libtool libva-dev libvdpau-dev
     apt-get -qqy install libx265-dev libnuma-dev texinfo zlib1g-dev libopenjp2-7-dev librtmp-dev
