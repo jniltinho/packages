@@ -73,6 +73,7 @@ steps:
     commands:
       - ls -sh /build/dist
       - npm install -g github-release-cli
+      - github-release delete --owner jniltinho --repo packages --tag=$RELEASE
       - github-release upload --owner jniltinho --repo packages --tag=$RELEASE --name=$RELEASE --body "$RELEASE_MSG" /build/dist/*
 
 
