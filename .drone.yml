@@ -46,7 +46,7 @@ steps:
       - export DEBIAN_FRONTEND=noninteractive
       - cd obs-studio/scripts
       - bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
-      - mv /root/dist/ffmpeg-obs-nvenc_* /build/dist/
+      - mv /root/dist/*.deb /build/dist/
       - ls -sh /build/dist
 
 
@@ -56,7 +56,7 @@ steps:
       - export DEBIAN_FRONTEND=noninteractive
       - cd obs-studio/scripts
       - bash NVENC-FFMPEG-OBSbuild.sh --dest /opt/ffmpeg-obs
-      - mv /root/dist/ffmpeg-obs-nvenc_* /build/dist/
+      - mv /root/dist/*.deb /build/dist/
       - ls -sh /build/dist
 
 
