@@ -170,7 +170,6 @@ BuildFFmpeg() {
         --enable-libcaca \
         --enable-libcdio \
         --enable-libcodec2 \
-        --enable-libflite \
         --enable-libfontconfig \
         --enable-libfreetype \
         --enable-libfribidi \
