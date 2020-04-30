@@ -186,7 +186,6 @@ BuildFFmpeg() {
         --enable-librsvg \
         --enable-librubberband \
         --enable-libshine \
-        --enable-libsnappy \
         --enable-libsoxr \
         --enable-libspeex \
         --enable-libtheora \
